@@ -19,7 +19,8 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
           title: 'rxjs',
-          filename:'index.html'
+          filename:'index.html',
+          template:'./index.html'
         }),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
