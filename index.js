@@ -99,7 +99,7 @@ btnObservable.subscribe((value)=>{
 
 // 控制流
 
-var input = Rx.Observable.fromEvent(document.querySelector('.into'), 'input');
+// var input = Rx.Observable.fromEvent(document.querySelector('.into'), 'input');
 
 /* input.filter(event => event.target.value.length > 2)
 .subscribe(value => console.log(value));  */
@@ -175,4 +175,129 @@ var timer3 = Rx.Observable.interval(500).take(10);
 var result = Rx.Observable.concat(timer1, timer2, timer3);
 result.subscribe(x => console.log(x)); */
 
-// create
+// create  (大多数时候，您不需要使用create，因为现有的创建操作符（以及实例组合运算符）允许您为大多数用例创建一个Observable。)
+
+
+// defer
+/* var clicksOrInterval = Rx.Observable.defer(function () {
+    if (Math.random() > 0.5) {
+        return Rx.Observable.fromEvent(document, 'click');
+    } else {
+        return Rx.Observable.interval(1000);
+    }
+});
+clicksOrInterval.subscribe(x => console.log(x)); */
+
+
+// empty
+/* var result = Rx.Observable.empty().startWith(7);
+result.subscribe(x => console.log(x)); */
+
+
+/* var interval = Rx.Observable.interval(1000);
+var result = interval.mergeMap(x =>
+    x % 2 === 1 ? Rx.Observable.of('a', 'b', 'c') : Rx.Observable.empty()
+);
+result.subscribe(x => console.log(x)); */
+
+// forkJoin
+
+
+// from
+// var array = [10, 20, 30];
+/* var result = Rx.Observable.from(array);
+result.subscribe(x => console.log(x)); */
+
+/* var intervalObservable = Rx.Observable.interval(1000).take(array.length);
+intervalObservable.subscribe( x=> console.log(array[x])) */
+
+/* function* generateDoubles(seed) {
+    var i = seed;
+    while (true) {
+        yield i;
+        i = 2 * i; // double it
+    }
+}
+
+var iterator = generateDoubles(3);
+var result = Rx.Observable.from(iterator).take(10);
+result.subscribe(x => console.log(x)); */
+
+
+// fromEvent (第三个参数selector，大体作用和map 一样)
+/* let eventObservable = Rx.Observable.fromEvent(document,'click',(arg) => {
+    return arg.target;
+}) */
+
+/* let eventObservable = Rx.Observable.fromEvent(document,'click').map( x =>x.target)
+
+eventObservable.subscribe( x => console.log(x))
+ */
+
+
+// fromEventPattern
+
+
+
+// fromPromise
+
+// interval
+// merge
+
+/* var clicks = Rx.Observable.fromEvent(document, 'click');
+var timer = Rx.Observable.interval(1000);
+var clicksOrTimer = Rx.Observable.merge(clicks, timer);
+clicksOrTimer.subscribe(x => console.log(x));
+ */
+
+
+
+/* var timer1 = Rx.Observable.interval(1000).take(10);
+var timer2 = Rx.Observable.interval(2000).take(6);
+var timer3 = Rx.Observable.interval(500).take(10);
+var concurrent = 2; // the argument
+var merged = Rx.Observable.merge(timer1, timer2, timer3, concurrent);
+merged.subscribe(x => console.log(x)); */
+
+
+// never
+/* function info() {
+    console.log('Will not be called');
+}
+var result = Rx.Observable.never().startWith(7);
+result.subscribe(x => console.log(x), info, info); */
+
+// of
+/* var numbers = Rx.Observable.of(1, 2, 3);
+var letters = Rx.Observable.of('a', 'b', 'c');
+var interval = Rx.Observable.interval(1000);
+var result = numbers.concat(letters).concat(interval);
+result.subscribe(x => console.log(x)); */
+
+
+// range
+
+
+// throw
+
+
+// timer
+/* var numbers = Rx.Observable.timer(3000, 1000);
+numbers.subscribe(x => console.log(x)); */
+
+// toAsync - undefined
+/* var func = Rx.Observable.toAsync(function (x, y) {
+    return x + y;
+});
+var source = func(3, 4);
+var subscription = source.subscribe(
+    function (x) {
+        console.log('Next: ' + x);
+    },
+    function (err) {
+        console.log('Error: ' + err);
+    },
+    function () {
+        console.log('Completed');
+    }
+); */
