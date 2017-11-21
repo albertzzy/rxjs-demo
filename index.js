@@ -1,5 +1,62 @@
 import Rx from 'rxjs'
 
+// 可观察对象 （函数和可观察对象均是惰性计算，再被订阅的时候才会执行;多值生产者）
+
+
+// 观察者（可观察对象发送数据的消费者）
+/* var observer={
+    next:x=>console.log('Observer got a next value: ' + x),
+    error: err => console.error('Observer got an error: ' + err),
+    complete: () => console.log('Observer got a complete notificati0n')
+}
+observable.subscribe(observer) */
+
+
+// operators
+// 当他们被调用，并不会去改变当前存在的可观察对象实例。相反，他们返回一个新的可观察对象
+// 如下为 订阅链条 
+/* function multiplyByTen(input) {
+    var output =Rx.Observable.create(function(observer){
+        input.subscribe({
+            next: (v) => observer.next(10*v),
+            error: (err) => observer.error(err),
+            complete: () => observer.complete()
+        });
+    });
+    return output;
+}
+var input = Rx.Observable.from([1,2,3,4]);
+var output = multiplyByTen(input);
+output.subscribe(x=>console.log(x)); */
+
+
+
+// subscription （可观察对象的执行）
+
+
+
+// subject (多播可观察对象)
+
+
+// scheduler
+/* console.log(Rx.Scheduler);
+
+var observable = Rx.Observable.create(function (observer) {
+    observer.next(1);
+    observer.next(2);
+    observer.next(3);
+    observer.complete();
+})
+.observeOn(Rx.Scheduler.asap);
+console.log('just before subscribe');
+observable.subscribe({
+    next: x => console.log('got value ' + x),
+    error: err => console.error('something wrong occurred: ' + err),
+    complete: () => console.log('done'),
+});
+console.log('just after subscribe'); */
+
+
 
 /* const source = Rx.Observable.create(observer => {
     observer.next('foo');
