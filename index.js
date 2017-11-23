@@ -358,3 +358,20 @@ var subscription = source.subscribe(
         console.log('Completed');
     }
 ); */
+
+
+// switchMap
+/* var clicks = Rx.Observable.fromEvent(document, 'click');
+var result = clicks.switchMap((ev) => Rx.Observable.interval(1000));
+result.subscribe(x => console.log(x)); */
+
+
+// switch
+/* var clicks = Rx.Observable.fromEvent(document, 'click');
+// Each click event is mapped to an Observable that ticks every second
+var higherOrder = clicks.map(() => Rx.Observable.interval(1000));
+var switched = higherOrder.switch();
+// The outcome is that `switched` is essentially a timer that restarts
+// on every click. The interval Observables from older clicks do not merge
+// with the current interval Observable.
+switched.subscribe(x => console.log(x)); */
