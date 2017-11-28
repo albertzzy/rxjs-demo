@@ -375,3 +375,122 @@ var switched = higherOrder.switch();
 // on every click. The interval Observables from older clicks do not merge
 // with the current interval Observable.
 switched.subscribe(x => console.log(x)); */
+
+
+// redux-observable  源码分析
+/* import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { from } from 'rxjs/observable/from';
+import { filter } from 'rxjs/operator/filter';
+import { Subject } from 'rxjs/Subject';
+import { map } from 'rxjs/operator/map';
+import { mapTo } from 'rxjs/operator/mapTo';
+import { delay } from 'rxjs/operator/delay';
+import { switchMap } from 'rxjs/operator/switchMap';
+
+
+
+
+const keyHasType = (type, key) => {
+    return type === key || typeof key === 'function' && type === key.toString();
+};
+  
+function ofType(...keys) {
+    return function ofTypeOperatorFunction(source) {
+      return source::filter(({ type }) => {
+        const len = keys.length;
+        if (len === 1) {
+          return keyHasType(type, keys[0]);
+        } else {
+          for (let i = 0; i < len; i++) {
+            if (keyHasType(type, keys[i])) {
+              return true;
+            }
+          }
+        }
+        return false;
+      });
+    };
+}
+
+
+class ActionsObservable extends Observable {
+  static of(...actions) {
+      console.log(this);
+    return new this(of(...actions));
+  }
+
+  static from(actions, scheduler) {
+    return new this(from(actions, scheduler));
+  }
+
+  constructor(actionsSubject) {
+    super();
+    this.source = actionsSubject;
+  }
+
+  lift(operator) {
+    const observable = new ActionsObservable(this);
+    observable.operator = operator;
+    return observable;
+  }
+
+  ofType(...keys) {
+    return ofType(...keys)(this);
+  }
+}
+
+
+const defaultAdapter = {
+    input: action$ => action$,
+    output: action$ => action$
+};
+
+
+
+const epic$ = new Subject();
+
+const input$ = new Subject();
+const action$ = defaultAdapter.input(
+  new ActionsObservable(input$)
+);
+
+
+
+epic$::map(epic => {console.log(11); return epic(action$)})
+::switchMap(output$ => defaultAdapter.output(output$))
+.subscribe(x=>console.log(x));
+
+
+//
+epic$.next(action$ =>
+    action$.ofType('ping')
+        ::delay(2000)
+      ::mapTo({ type: 'pong' })
+);
+
+
+input$.next({
+    type:'ping'
+}); */
+
+
+// 防抖限流，两者都是每一秒只会执行一次，
+// 前者是每次执行都需等待一秒（如果点的很快，就一直不会执行，最后一次才会执行，总共只执行一次）
+// 后者是先执行然后再等待一秒之后如果有，再执行，然后再等一秒（如果点的很快，隔一秒就会执行一次）
+
+// debounceTime  防抖
+/* var clicks = Rx.Observable.fromEvent(document, 'click');
+var result = clicks.debounceTime(1000);
+result.subscribe(x => console.log(x)); */
+
+// throttle  限流
+/* var clicks = Rx.Observable.fromEvent(document, 'click');
+var result = clicks.throttle(ev => Rx.Observable.interval(1000));
+result.subscribe(x => console.log(x)); */
+
+// takeUntil（func）  func执行在一秒内执行，则前面的observable不会执行 
+var interval = Rx.Observable.interval(1000);
+var clicks = Rx.Observable.fromEvent(document, 'click');
+var result = interval.takeUntil(clicks);
+result.subscribe(x => console.log(x));

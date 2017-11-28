@@ -16,6 +16,15 @@ module.exports = {
         filename:'js/[name].js',
         path:path.resolve(__dirname,'dist')
     },
+    module:{
+        rules:[
+            {
+                test:/\.js$/,
+                use:'babel-loader',
+                exclude: /node_modules/
+            }
+        ]
+    },
     plugins: [
         new HtmlWebpackPlugin({
           title: 'rxjs',
